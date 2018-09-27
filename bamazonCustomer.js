@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var Table = require('cli-table');
+var Table = require('cli-table2');
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -16,11 +16,12 @@ connection.connect(function(err) {
 });
 
 function displayTable() {
-    connection.query('SELECT * FROM Products', function(error, res) {
-        if (error) {console.log(error)};
+    connection.query('SELECT * FROM Products', function(err, res) {
+        if (err) {console.log(err)};
         var table = new Table({
             head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Stock'],
-            colWidths: [10, 30, 30, 15, 8]
+            colAligns: ['center', null, null, 'right', 'center'],
+            colWidths: [10, 30, 30, 16, 8]
         });
         for (i = 0; i < res.length; i++) {
             table.push(
@@ -28,11 +29,11 @@ function displayTable() {
             );
         }
     console.log(table.toString());
-    startPrompt(); // Prompt the customer
+    setTimeout(start, 2000); // Prompt the user
     });
 }
 
-function startPrompt() {
+function start() {
     inquirer.prompt([
       {
         name: "ID",
@@ -45,5 +46,12 @@ function startPrompt() {
       }
     ])
     .then(function(answer) {
+        var itemIdSelected = answer.ID;
+        var amountSelected = answer.AMOUNT;
+        //purchase(itemIdSelected,amountSelected);
     });
+}
+
+function purchase(itemIdSelected,amountSelected){
+
 }
