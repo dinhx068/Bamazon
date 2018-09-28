@@ -15,6 +15,16 @@ connection.connect(function(err) {
     displayTable(); // We first display the table for the customer
 });
 
+function validateNumber(input) {
+    var reg = /^\d+$/;
+    return ( (reg.test(input)) && (input > 0) ) || "Enter a valid number!";
+}
+
+function validateNumber2(input) {
+    var reg = /^\d+$/;
+    return ( (reg.test(input)) && (input > -1) ) || "Enter a valid number!";
+}
+
 function displayTable() {
     connection.query('SELECT * FROM Products', function(err, res) {
         if (err) {console.log(err)};
@@ -38,11 +48,14 @@ function start() {
       {
         name: "ID",
         type: "input", // Grabbing Item id
-        message: "What would you like to buy? Enter the Item ID of that product."
+        message: "What would you like to buy? Enter the Item ID of that product.",
+        validate: validateNumber
+
       }, {
         name: "AMOUNT",
         type: "input", // Grabbing amount that the customer wants
-        message: "How many units would you like to buy of that product?"
+        message: "How many units would you like to buy of that product?",
+        validate: validateNumber
       }
     ])
     .then(function(answer) {
@@ -63,7 +76,8 @@ function purchase(itemIdSelected,amountSelected){
                   type: "input", // Grabbing user amount
                   message: "--------------------------------------------------------------------------------------------------" + 
                   "\nSo, enter an amount that is equal to or less than " + res[itemIdSelected].stock + " for " + res[itemIdSelected].product_name + "." +
-                  "\nOr enter 0 to go back to the select another product."
+                  "\nOr enter 0 to go back to the select another product.",
+                  validate: validateNumber2
                 })
                 .then(function(answer) {
                     let newAmount = answer.AMOUNT; // New input from the user
@@ -75,6 +89,7 @@ function purchase(itemIdSelected,amountSelected){
                         purchase(itemIdSelected,newAmount);
                     }
                 });
+        // When user enters a valid input we go here
         } else {
 
         }
