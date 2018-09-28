@@ -119,9 +119,12 @@ function purchase(itemIdSelected,amountSelected){
                         if (error) throw err;
                         console.log(`Buying ${amountSelected} unit(s) of ${productSelected.name} will cost you $${totalCost}.`); 
                         setTimeout(function () {
-                            console.log(`Thanks for shopping at Bamazon! \nYou will be returned to the catalog shortly!`)}, 
+                            console.log(`Thanks for shopping at Bamazon!`)}, 
                             3000);
-                        setTimeout(displayTable, 5000);
+                        setTimeout(function () {
+                            console.log(`You will be returned to the catalog shortly!`)},
+                            6000);
+                        setTimeout(displayTable, 9000);
                     }
                 );
             }
