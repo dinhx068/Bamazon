@@ -18,7 +18,7 @@ connection.connect(function(err) {
 function displayTable() {
     connection.query('SELECT * FROM Products', function(err, res) {
         if (err) {console.log(err)};
-        var table = new Table({
+        let table = new Table({
             head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Stock'],
             colAligns: ['center', null, null, 'right', 'center'],
             colWidths: [10, 30, 30, 16, 8]
@@ -29,7 +29,7 @@ function displayTable() {
             );
         }
     console.log(table.toString());
-    setTimeout(start, 2000); // Prompt the user
+    setTimeout(start, 1000); // Prompt the user
     });
 }
 
@@ -38,7 +38,7 @@ function start() {
       {
         name: "ID",
         type: "input", // Grabbing Item id
-        message: "Hello, what would you like to buy? Enter the Item ID of that product."
+        message: "What would you like to buy? Enter the Item ID of that product."
       }, {
         name: "AMOUNT",
         type: "input", // Grabbing amount that the customer wants
@@ -46,12 +46,38 @@ function start() {
       }
     ])
     .then(function(answer) {
-        var itemIdSelected = answer.ID;
-        var amountSelected = answer.AMOUNT;
-        //purchase(itemIdSelected,amountSelected);
+        let itemIdSelected = answer.ID - 1;
+        let amountSelected = answer.AMOUNT;
+        purchase(itemIdSelected,amountSelected); // Passing user input to the next function
     });
 }
 
 function purchase(itemIdSelected,amountSelected){
+    connection.query('SELECT * FROM Products', function(err, res) {
+        if (err) {console.log(err)};
+        // When the user enters an amount less than what is in stock
+        if (amountSelected > res[itemIdSelected].stock) {
+            console.log(`You cannot buy that many of ${res[itemIdSelected].product_name} since we do not have that many in stock.`);
+            inquirer.prompt({
+                  name: "AMOUNT",
+                  type: "input", // Grabbing user amount
+                  message: "--------------------------------------------------------------------------------------------------" + 
+                  "\nSo, enter an amount that is equal to or less than " + res[itemIdSelected].stock + " for " + res[itemIdSelected].product_name + "." +
+                  "\nOr enter 0 to go back to the select another product."
+                })
+                .then(function(answer) {
+                    let newAmount = answer.AMOUNT; // New input from the user
+                    // If user wants to go back to the table
+                    if (0 == newAmount) { 
+                        setTimeout(displayTable, 1000);
+                    // Get valid number from the user by rerunning the function
+                    } else {
+                        purchase(itemIdSelected,newAmount);
+                    }
+                });
+        } else {
 
+        }
+
+    });
 }
