@@ -12,6 +12,8 @@ How to use:
 * to run the manager app go to the console and run
     * node customerManager.js
 
+p.s. Be sure to navigate the console to directory with these files to run them.
+
 Some things to possibly add/change.
 
 Customer side:
