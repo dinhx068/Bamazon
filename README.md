@@ -9,7 +9,7 @@ How to use:
 * to run the the customer app go to the console and run
     * node customerCustomer.js
 
-* to run the manager app go to the console and run,
+* to run the manager app go to the console and run
     * node customerManager.js
 
 Some things to possibly add/change.
