@@ -6,11 +6,11 @@ Before using running the app do the following:
 3. Then import and run the seeds.sql file.
 
 How to use:
-* to run the the customer app
-    * enter to the console, node customerCustomer.js
+* to run the the customer app go to the console and run
+    * node customerCustomer.js
 
-* to run the manager app
-    * enter to the console, node customerManager.js
+* to run the manager app go to the console and run,
+    * node customerManager.js
 
 Some things to possibly add/change.
 
