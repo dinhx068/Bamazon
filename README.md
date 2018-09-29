@@ -7,12 +7,13 @@ Before using running the app do the following:
 
 How to use:
 * to run the the customer app
-    enter to the console, node customerCustomer.js
+    * enter to the console, node customerCustomer.js
 
 * to run the manager app
-    enter to the console, node customerManager.js
+    * enter to the console, node customerManager.js
 
-Some things to possibly add/change,
+Some things to possibly add/change.
+
 Customer side:
 - [ ] Add a confirm prompt in the beginning whether to shop or not at Bamazon
 - [ ] Add a 0 option to go back to select a different item
