@@ -147,20 +147,20 @@ function addNewProduct() {
     inquirer.prompt([
         {
             name: "PRODUCT_NAME",
-            type: "input", // Grabbing product name
+            type: "input", // Grabbing input for product name
             message: "Enter the [Product Name]."
         }, {
             name: "DEPARTMENT_NAME",
-            type: "input", // Grabbing Department name
+            type: "input", // Grabbing input for department name
             message: "Enter the [Department Name] that is in charge of the product."
         }, {
             name: "PRODUCT_PRICE",
-            type: "input", // Grabbing Department name
+            type: "input", // Grabbing input for price
             message: "Enter the [Price] of the product.",
             validate: validatePrice
         }, {
             name: "PRODUCT_STOCK",
-            type: "input", // Grabbing Department name
+            type: "input", // Grabbing input for stock
             message: "Enter how many product(s) to [Stock].",
             validate: validateNumber
         }
