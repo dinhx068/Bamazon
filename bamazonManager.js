@@ -17,11 +17,16 @@ connection.connect(function(err) {
     mainMenu();
 });
   
+function validateNumber(input) {
+    var reg = /^\d+$/;
+    return reg.test(input) || "Enter a valid number!";
+}
+
 function mainMenu() {
     inquirer.prompt({
         name: "action",
         type: "list",
-        message: "----------------------------------------------------------------------------------------------------" + 
+        message: "--------------------------------------------------------------------------------------------------" + 
         "\n What would you like to do? Selct one of the following:",
         choices: ["View Products for Sale", 
                   "View Low Inventory",
@@ -85,7 +90,49 @@ function viewLowInventory() {
 }
 
 function addToInventory() {
-    
+    inquirer.prompt([
+        {
+          name: "ID",
+          type: "input", // Grabbing Item id
+          message: "Enter the Item ID of that product that you would like to restock.",
+          validate: validateNumber
+        }
+      ])
+      .then(function(answer) {
+          let itemIdSelected = answer.ID - 1;
+          connection.query('SELECT * FROM Products', function(err, res) {
+            if (err) {console.log(err)};
+            // Making sure user inputs a valid item id
+            if (-1 < itemIdSelected && itemIdSelected < res.length) {
+                inquirer.prompt([
+                  {
+                    name: "AMOUNT",
+                    type: "input", // Grabbing Item id
+                    message: `Enter the [amount] to restock [${res[itemIdSelected].product_name}], currently in stock [${res[itemIdSelected].stock}].`,
+                    validate: validateNumber
+                  }
+                ])
+                .then(function(amountToAdd) {
+                    let newStock = parseInt(res[itemIdSelected].stock) + parseInt(amountToAdd.AMOUNT);
+                    connection.query("UPDATE products SET ? WHERE ?",
+                    [
+                        { stock: newStock },
+                        { item_id: res[itemIdSelected].item_id }
+                    ],
+                    function(error) {
+                        if (error) throw err;
+                        console.log(`[${res[itemIdSelected].product_name}] was restocked to [${newStock}].`);
+                        setTimeout(mainMenu, 1000);
+                    }
+                    );
+                });
+            // If item id is not on the list then the user gets prompt the same question
+            } else {
+                console.log("That item id was not on the list");
+                setTimeout(addToInventory, 1000);
+            }
+        });
+      });
 }
 
 function addNewProduct() {
