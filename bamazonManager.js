@@ -167,17 +167,19 @@ function addNewProduct() {
       ])
     .then(function(answer) {
         console.log("\nInserting a new product...");
+        //  Tried to float the number with two decimals but it would not do it
+        //  let floatPrice = parseFloat(parseFloat(answer.PRODUCT_PRICE).toFixed(2));
         connection.query(
           "INSERT INTO products SET ?",
           {
             product_name: answer.PRODUCT_NAME,
-            department_name:answer.DEPARTMENT_NAME,
+            department_name: answer.DEPARTMENT_NAME,
             price: answer.PRODUCT_PRICE,
             stock: answer.PRODUCT_STOCK
           },
           function(err, res) {
             setTimeout(function () {
-                console.log(`${res.affectedRows} product inserted.`)},
+                console.log(`[${res.affectedRows}] product inserted.`)},
                 1000);
             // Call updateProduct AFTER the INSERT completes
             console.log(`[${answer.PRODUCT_NAME}] was added to the Products for sale. [${answer.PRODUCT_STOCK}] in stock.`);
