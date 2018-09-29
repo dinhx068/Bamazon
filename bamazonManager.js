@@ -22,6 +22,14 @@ function validateNumber(input) {
     return reg.test(input) || "Enter a valid number!";
 }
 
+function validatePrice(n) {
+    if (n > 0) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    } else {
+        return "Not a valid number for the price"
+    }
+}
+
 function mainMenu() {
     inquirer.prompt({
         name: "action",
@@ -121,7 +129,7 @@ function addToInventory() {
                     ],
                     function(error) {
                         if (error) throw err;
-                        console.log(`[${res[itemIdSelected].product_name}] was restocked to [${newStock}].`);
+                        console.log(`\n[${res[itemIdSelected].product_name}] was restocked to [${newStock}].`);
                         setTimeout(mainMenu, 1000);
                     }
                     );
@@ -149,7 +157,7 @@ function addNewProduct() {
             name: "PRODUCT_PRICE",
             type: "input", // Grabbing Department name
             message: "Enter the [Price] of the product.",
-            //validate: validateNumber
+            validate: validatePrice
         }, {
             name: "PRODUCT_STOCK",
             type: "input", // Grabbing Department name
@@ -157,7 +165,24 @@ function addNewProduct() {
             validate: validateNumber
         }
       ])
-      .then(function(answer) {
-          
-      });
+    .then(function(answer) {
+        console.log("\nInserting a new product...");
+        connection.query(
+          "INSERT INTO products SET ?",
+          {
+            product_name: answer.PRODUCT_NAME,
+            department_name:answer.DEPARTMENT_NAME,
+            price: answer.PRODUCT_PRICE,
+            stock: answer.PRODUCT_STOCK
+          },
+          function(err, res) {
+            setTimeout(function () {
+                console.log(`${res.affectedRows} product inserted.`)},
+                1000);
+            // Call updateProduct AFTER the INSERT completes
+            console.log(`[${answer.PRODUCT_NAME}] was added to the Products for sale. [${answer.PRODUCT_STOCK}] in stock.`);
+            setTimeout(mainMenu, 3000);
+          }
+        );      
+    });
 }
