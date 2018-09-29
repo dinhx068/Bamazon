@@ -136,5 +136,28 @@ function addToInventory() {
 }
 
 function addNewProduct() {
-    
+    inquirer.prompt([
+        {
+            name: "PRODUCT_NAME",
+            type: "input", // Grabbing product name
+            message: "Enter the [Product Name]."
+        }, {
+            name: "DEPARTMENT_NAME",
+            type: "input", // Grabbing Department name
+            message: "Enter the [Department Name] that is in charge of the product."
+        }, {
+            name: "PRODUCT_PRICE",
+            type: "input", // Grabbing Department name
+            message: "Enter the [Price] of the product.",
+            //validate: validateNumber
+        }, {
+            name: "PRODUCT_STOCK",
+            type: "input", // Grabbing Department name
+            message: "Enter how many product(s) to [Stock].",
+            validate: validateNumber
+        }
+      ])
+      .then(function(answer) {
+          
+      });
 }
