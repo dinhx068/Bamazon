@@ -1,4 +1,4 @@
-It was very fun while doing this activity as I used the knowledge obtained from class and the internet of course. Follow the instructions below if you want to run the app yourself. There will be a link (later) to showcase how the app works.
+It was very fun while doing this activity as I used the knowledge obtained from class and the internet of course. Follow the instructions below if you want to run the app yourself. Demo of the app can be seen here -> https://streamable.com/yu8uc 
 
 Before using running the app do the following:
 1. Do a "npm install" in your console while in the directory of the folder (to get all the packages of the app to work).
